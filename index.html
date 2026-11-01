@@ -132,8 +132,14 @@ textarea{resize:vertical;min-height:4.5rem}
 /* menu */
 main{padding-block:30px 120px;scroll-margin-top:70px}
 .sec{max-width:780px;margin:0 auto 36px;scroll-margin-top:84px}
-.sec h2{font-family:var(--font-display);font-weight:400;font-size:2.2rem;line-height:1.3;margin:0 0 14px;display:flex;align-items:center;gap:14px}
-.sec h2::after{content:"";height:2px;flex:1;background:linear-gradient(90deg,var(--accent),transparent);border-radius:2px;opacity:.7}
+/* section banner: the category photo is the background of the heading */
+.sec-head{position:relative;isolation:isolate;overflow:hidden;border-radius:26px;margin:0 0 16px;min-height:104px;padding:20px 26px;display:flex;align-items:center;color:var(--hero-ink);background:radial-gradient(120% 170% at 18% 30%,#5a3716 0%,#2e1b0d 55%,#150c07 100%);box-shadow:var(--shadow-hi)}
+.sec-head::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(circle at 22% 50%,rgba(255,181,92,.38),transparent 58%)}
+.sec-head.has-bg{min-height:170px}
+.sec-head.has-bg::after{content:"";position:absolute;inset:-4% 0;z-index:-1;background:var(--bgimg) no-repeat 3% 50%/auto 112%;filter:drop-shadow(0 12px 18px rgba(0,0,0,.5));-webkit-mask-image:linear-gradient(to right,#000 52%,transparent 88%);mask-image:linear-gradient(to right,#000 52%,transparent 88%)}
+.sec-head h2{position:relative;margin:0;max-width:100%;font-family:var(--font-display);font-weight:400;font-size:2.3rem;line-height:1.3;color:#fff3dc;text-shadow:0 2px 14px rgba(0,0,0,.65)}
+.sec-head.has-bg h2{max-width:56%}
+@media (max-width:520px){.sec-head{padding:16px 18px;border-radius:22px}.sec-head.has-bg{min-height:140px}.sec-head h2{font-size:1.8rem}.sec-head.has-bg h2{max-width:54%}}
 .grid{display:flex;flex-direction:column;gap:12px}
 .item{background:var(--card);border-radius:20px;padding:10px;box-shadow:var(--shadow);display:flex;flex-direction:row;align-items:center;gap:14px;min-width:0;border:1px solid var(--line);transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;animation:up .6s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0) * 60ms)}
 .item:hover{transform:translateY(-3px);box-shadow:var(--shadow-hi)}
@@ -352,7 +358,7 @@ function renderMenu(){
     total+=items.length;
     if(!items.length && !(canEdit&&!q))return;
     chips+='<button class="chip" data-go="cat-'+esc(c.id)+'">'+esc(c.name)+'</button>';
-    html+='<section class="sec" id="cat-'+esc(c.id)+'"><h2>'+esc(c.name)+'</h2>'+
+    html+='<section class="sec" id="cat-'+esc(c.id)+'"><div class="sec-head'+(c.bg?' has-bg':'')+'"'+(c.bg?' style="--bgimg:url('+esc(c.bg)+')"':'')+'><h2>'+esc(c.name)+'</h2></div>'+
       (items.length?'<div class="grid">'+items.map(function(p,i){return itemHtml(p,d,i)}).join('')+'</div>':'<p class="note">این دسته هنوز محصولی ندارد.</p>')+'</section>';
   });
   if(!total && !html){
